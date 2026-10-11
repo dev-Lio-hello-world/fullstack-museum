@@ -216,5 +216,8 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
+# 博物馆特有
+SQL/text.db
+
 # Streamlit
 .streamlit/secrets.toml
