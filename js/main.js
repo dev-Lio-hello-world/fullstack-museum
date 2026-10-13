@@ -448,3 +448,49 @@ Object.keys(enterMap).forEach(inputId => {
         toggleTheme();  // 切到深色
     }
 })();
+
+    // ========== 功能搜索 ==========
+    function searchFeature() {
+        const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+        const resultBox = document.getElementById("searchResult");
+        const allBlocks = document.querySelectorAll(".功能块");
+
+        // 先清掉旧高亮
+        allBlocks.forEach(b => b.classList.remove("search-hit"));
+        resultBox.textContent = "";
+
+        if (keyword === "") {
+            resultBox.textContent = "请输入关键词";
+            return;
+        }
+
+        let hits = [];
+        allBlocks.forEach(block => {
+            const title = block.querySelector("h3");
+            if (!title) return;
+            const text = title.textContent.toLowerCase();
+            if (text.includes(keyword)) {
+                hits.push(block);
+            }
+        });
+
+        if (hits.length === 0) {
+            resultBox.textContent = `没找到「${keyword}」相关的功能`;
+            return;
+        }
+
+        // 高亮 + 滚到第一个
+        hits.forEach(b => b.classList.add("search-hit"));
+        hits[0].scrollIntoView({ behavior: "smooth", block: "center" });
+
+        resultBox.textContent = `找到 ${hits.length} 个结果`;
+    }
+
+    document.getElementById("searchBtn").addEventListener("click", searchFeature);
+
+    document.getElementById("searchInput").addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            searchFeature();
+        }
+    });
